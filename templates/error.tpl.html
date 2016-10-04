@@ -1,0 +1,30 @@
+<html>
+ <body>
+  <h1>Errors</h1>
+
+  <table>
+   {% for e in errors %}
+   <tr>
+     <td>{{ e.file }}</td>
+     <td>{{ e.line }}</td>
+     <td>{{ e.numger }}</td>
+     <td>{{ e.message }}</td>
+   </tr>
+   {% endfor %}
+  </table>
+
+  <h1>Warning</h1>
+  <table>
+      {% for w in warnings %}
+      <tr>
+	  <td>{{ w.file }}</td>
+	  <td>{{ w.line }}</td>
+	  <td>{{ w.numger }}</td>
+	  <td>{{ w.message }}</td>
+      </tr>
+      {% endfor %}
+  </table>
+
+ </body>
+</html>
+
