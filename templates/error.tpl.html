@@ -1,30 +1,57 @@
+<!DOCTYPE html>
 <html>
- <body>
-  <h1>Errors</h1>
 
-  <table>
-   {% for e in errors %}
-   <tr>
-     <td>{{ e.file }}</td>
-     <td>{{ e.line }}</td>
-     <td>{{ e.numger }}</td>
-     <td>{{ e.message }}</td>
-   </tr>
-   {% endfor %}
-  </table>
+    <head>
+	<title>Error messages</title>
+    </head>
 
-  <h1>Warning</h1>
-  <table>
-      {% for w in warnings %}
-      <tr>
-	  <td>{{ w.file }}</td>
-	  <td>{{ w.line }}</td>
-	  <td>{{ w.numger }}</td>
-	  <td>{{ w.message }}</td>
-      </tr>
-      {% endfor %}
-  </table>
+    <body>
+	<h1>Errors</h1>
 
- </body>
+	{% if errors %}
+
+	<table>
+
+	    {% for e in errors %}
+
+	    <tr>
+		<td>{{ e.file }}</td>
+		<td>{{ e.line }}</td>
+		<td>{{ e.numger }}</td>
+		<td>{{ e.message }}</td>
+	    </tr>
+
+	    {% endfor %}
+
+	</table>
+
+    {% else %}
+
+        <p>no error!</p>
+
+        {% endif %}
+
+        <h1>Warning</h1>
+
+        {% if warnings %}
+
+        <table>
+            {% for w in warnings %}
+            <tr>
+                <td>{{ w.file }}</td>
+                <td>{{ w.line }}</td>
+                <td>{{ w.numger }}</td>
+                <td>{{ w.message }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% else %}
+
+        <p>no warning!</p>
+
+        {% endif %}
+
+    </body>
+
 </html>
-

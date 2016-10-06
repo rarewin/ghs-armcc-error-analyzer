@@ -10,6 +10,7 @@ from jinja2 import Environment, FileSystemLoader
 
 err_reg = re.compile('^\s*\"(?P<file>.*)\",\s*line\s*(?P<line>\d+).*:\s*[fatal]*\s*(?P<type>warning|error|remark)\s*#(?P<number>\d+)[-D]*\s*:*\s*(?P<message>.*)$')
 
+
 if __name__ == '__main__':
 
 	env = Environment(loader = FileSystemLoader('./templates/', encoding = 'utf8'))
@@ -36,11 +37,12 @@ if __name__ == '__main__':
 
 			m = err_reg.match(line.strip())
 
-			if m:
+            # append only unique messages
+			if m and not (m.groupdict() in result[m.group('type')]):
 				result[m.group('type')].append(m.groupdict())
 
 			line = input_file.readline().decode('cp932')
 
+	# output html by means of jinja2
 	html = tpl.render({'errors': result['error'], 'warnings': result['warning'], 'remarks': result['remark']})
 	sys.stdout.buffer.write(html.encode('utf-8'))
-
