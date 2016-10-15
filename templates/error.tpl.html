@@ -1,99 +1,103 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
+  <head>
 
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 
-	<title>Error messages</title>
+    <title>Error messages</title>
 
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
 
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
 
-    </head>
+  </head>
 
-    <body>
+  <body>
 
-	<h1><a name="errors">Errors</a></h1>
+    <h1><a name="errors">Errors</a></h1>
 
-	{% if errors %}
+    {% if errors %}
 
-	<table class="table table-striped">
+      <table class="table table-striped">
 
-	    {% for e in errors %}
+        {% for e in errors %}
 
-	    <tr>
-		<td>{{ e.file }}</td>
-		<td>{{ e.line }}</td>
-		<td>{{ e.numger }}</td>
-		<td>{{ e.message }}</td>
-	    </tr>
+          <tr>
+            <td>{{ e.file }}</td>
+	    <td>{{ e.line }}</td>
+	    <td>{{ e.numger }}</td>
+	    <td>{{ e.message }}</td>
+          </tr>
 
-	    {% endfor %}
+        {% endfor %}
 
-	</table>
+      </table>
 
     {% else %}
 
-        <p>no error!</p>
+      <p>no error!</p>
 
-        {% endif %}
+    {% endif %}
 
-        <h1><a name="warnings">Warning</a></h1>
+    <h1><a name="warnings">Warning</a></h1>
 
-        {% if warnings %}
+    {% if warnings %}
 
-        <table class="table table-striped">
-            {% for w in warnings %}
-            <tr>
-                <td>{{ w.file }}</td>
-                <td>{{ w.line }}</td>
-                <td>{{ w.numger }}</td>
-                <td>{{ w.message }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+      <table class="table table-striped">
 
-        {% else %}
+        {% for w in warnings %}
 
-        <p>no warning!</p>
+          <tr>
+            <td>{{ w.file }}</td>
+            <td>{{ w.line }}</td>
+            <td>{{ w.numger }}</td>
+            <td>{{ w.message }}</td>
+          </tr>
 
-        {% endif %}
+        {% endfor %}
 
-	<h1><a name ="remarks">Remarks</a></h1>
+      </table>
 
-	{% if remarks %}
+    {% else %}
 
-	<table class="table table-striped">
+      <p>no warning!</p>
 
-	    {% for r in remarks %}
+    {% endif %}
 
-	    <tr>
-		<td>{{ r.file }}</td>
-		<td>{{ r.line }}</td>
-		<td>{{ r.numger }}</td>
-		<td>{{ r.message }}</td>
-	    </tr>
+    <h1><a name ="remarks">Remarks</a></h1>
 
-	    {% endfor %}
+    {% if remarks %}
 
-	</table>
+      <table class="table table-striped">
 
-	{% else %}
+        {% for r in remarks %}
 
-        <p>no remarks!</p>
+          <tr>
+	    <td>{{ r.file }}</td>
+	    <td>{{ r.line }}</td>
+	    <td>{{ r.numger }}</td>
+	    <td>{{ r.message }}</td>
+          </tr>
 
-        {% endif %}
+        {% endfor %}
 
-	<footer class="footer">
-	    <div class="container">
-		<p class="text-muted">Place sticky footer content here.</p>
-	    </div>
-	</footer>
+      </table>
 
-    </body>
+    {% else %}
+
+      <p>no remarks!</p>
+
+    {% endif %}
+
+    <footer class="footer">
+      <div class="container">
+	<p class="text-muted">Place sticky footer content here.</p>
+      </div>
+    </footer>
+
+  </body>
 
 </html>
