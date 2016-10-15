@@ -6,16 +6,32 @@
     <meta charset="utf-8">
 
     <title>Error messages</title>
-
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
 
   </head>
 
-  <body>
+  <body style="padding-bottom: 5em;">
+
+    <nav class="navbar navbar-fixed-bottom navbar-dark bg-inverse">
+
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <a class="navbar-brand">GHS ARM Compiler Messages</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#errors">Errors</a></li>
+          <li class="nav-item"><a class="nav-link" href="#warnings">Warnings</a></li>
+          <li class="nav-item"><a class="nav-link" href="#remarks">Remarks</a></li>
+        </ul>
+
+      </div>
+
+    </nav>
+
 
     <h1><a name="errors">Errors</a></h1>
 
@@ -23,13 +39,20 @@
 
       <table class="table table-striped">
 
+        <tr>
+          <th>file</th>
+          <th>line</th>
+          <th>Error#</th>
+          <th>Message</th>
+        </tr>
+
         {% for e in errors %}
 
           <tr>
             <td>{{ e.file }}</td>
-	    <td>{{ e.line }}</td>
-	    <td>{{ e.numger }}</td>
-	    <td>{{ e.message }}</td>
+            <td>{{ e.line }}</td>
+            <td>{{ e.number }}</td>
+            <td>{{ e.message }}</td>
           </tr>
 
         {% endfor %}
@@ -48,12 +71,19 @@
 
       <table class="table table-striped">
 
+        <tr>
+          <th>file</th>
+          <th>line</th>
+          <th>Error#</th>
+          <th>Message</th>
+        </tr>
+
         {% for w in warnings %}
 
           <tr>
             <td>{{ w.file }}</td>
             <td>{{ w.line }}</td>
-            <td>{{ w.numger }}</td>
+            <td>{{ w.number }}</td>
             <td>{{ w.message }}</td>
           </tr>
 
@@ -73,13 +103,20 @@
 
       <table class="table table-striped">
 
+        <tr>
+          <th>file</th>
+          <th>line</th>
+          <th>Error#</th>
+          <th>Message</th>
+        </tr>
+
         {% for r in remarks %}
 
           <tr>
-	    <td>{{ r.file }}</td>
-	    <td>{{ r.line }}</td>
-	    <td>{{ r.numger }}</td>
-	    <td>{{ r.message }}</td>
+            <td>{{ r.file }}</td>
+            <td>{{ r.line }}</td>
+            <td>{{ r.number }}</td>
+            <td>{{ r.message }}</td>
           </tr>
 
         {% endfor %}
@@ -91,12 +128,6 @@
       <p>no remarks!</p>
 
     {% endif %}
-
-    <footer class="footer">
-      <div class="container">
-	<p class="text-muted">Place sticky footer content here.</p>
-      </div>
-    </footer>
 
   </body>
 
