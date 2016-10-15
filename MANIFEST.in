@@ -1,0 +1,2 @@
+recursive-include ghs_armcc_error_analyzer *.tpl.html
+include LICENSE.txt
