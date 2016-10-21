@@ -32,102 +32,153 @@
 
     </nav>
 
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-    <h1><a name="errors">Errors</a></h1>
+      <div class="panel panel-default">
 
-    {% if errors %}
+        <div class="panel-heading" role="tab" id="headingOne">
 
-      <table class="table table-striped">
+          <h2 class="panel-title"><a name="errors" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseErrors">Errors</a></h2>
 
-        <tr>
-          <th>file</th>
-          <th>line</th>
-          <th>Error#</th>
-          <th>Message</th>
-        </tr>
+        </div>
 
-        {% for e in errors %}
+        {% if errors %}
 
-          <tr>
-            <td>{{ e.file }}</td>
-            <td>{{ e.line }}</td>
-            <td>{{ e.number }}</td>
-            <td>{{ e.message }}</td>
-          </tr>
+          <div id="collapseErrors" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 
-        {% endfor %}
+            <div class="panel-body">
 
-      </table>
+              <table class="table table-striped">
 
-    {% else %}
+                <tr>
+                  <th>file</th>
+                  <th>line</th>
+                  <th>Error#</th>
+                  <th>Message</th>
+                </tr>
 
-      <p>no error!</p>
+                {% for e in errors %}
 
-    {% endif %}
+                  <tr>
+                    <td>{{ e.file }}</td>
+                    <td>{{ e.line }}</td>
+                    <td>{{ e.number }}</td>
+                    <td>{{ e.message }}</td>
+                  </tr>
 
-    <h1><a name="warnings">Warning</a></h1>
+                {% endfor %}
 
-    {% if warnings %}
+              </table>
 
-      <table class="table table-striped">
+            </div>
 
-        <tr>
-          <th>file</th>
-          <th>line</th>
-          <th>Error#</th>
-          <th>Message</th>
-        </tr>
+          </div>
 
-        {% for w in warnings %}
+        {% else %}
 
-          <tr>
-            <td>{{ w.file }}</td>
-            <td>{{ w.line }}</td>
-            <td>{{ w.number }}</td>
-            <td>{{ w.message }}</td>
-          </tr>
+          <p>no error!</p>
 
-        {% endfor %}
+        {% endif %}
 
-      </table>
+      </div>
 
-    {% else %}
+      <div class="panel panel-default">
 
-      <p>no warning!</p>
+        <div class="panel-heading" role="tab" id="headingTwo">
 
-    {% endif %}
+          <h2 class="panel-title"><a name="warnings" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseWarnings">Warning</a></h2>
 
-    <h1><a name ="remarks">Remarks</a></h1>
+        </div>
 
-    {% if remarks %}
+        {% if warnings %}
 
-      <table class="table table-striped">
+          <div id="collapseWarnings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 
-        <tr>
-          <th>file</th>
-          <th>line</th>
-          <th>Error#</th>
-          <th>Message</th>
-        </tr>
+            <div class="panel-body">
 
-        {% for r in remarks %}
+              <table class="table table-striped">
 
-          <tr>
-            <td>{{ r.file }}</td>
-            <td>{{ r.line }}</td>
-            <td>{{ r.number }}</td>
-            <td>{{ r.message }}</td>
-          </tr>
+                <tr>
+                  <th>file</th>
+                  <th>line</th>
+                  <th>Error#</th>
+                  <th>Message</th>
+                </tr>
 
-        {% endfor %}
+                {% for w in warnings %}
 
-      </table>
+                  <tr>
+                    <td>{{ w.file }}</td>
+                    <td>{{ w.line }}</td>
+                    <td>{{ w.number }}</td>
+                    <td>{{ w.message }}</td>
+                  </tr>
 
-    {% else %}
+                {% endfor %}
 
-      <p>no remarks!</p>
+              </table>
 
-    {% endif %}
+            </div>
+
+          </div>
+
+        {% else %}
+
+          <p>no warning!</p>
+
+        {% endif %}
+
+      </div>
+
+      <div class="panel panel-default">
+
+        <div class="panel-heading" role="tab" id="headingThree">
+
+          <h2 class="panel-title"><a name ="remarks" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseRemarks">Remarks</a></h2>
+
+        </div>
+
+        {% if remarks %}
+
+          <div id="collapseRemarks" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+
+            <div class="panel-body">
+
+              <table class="table table-striped">
+
+                <tr>
+                  <th>file</th>
+                  <th>line</th>
+                  <th>Error#</th>
+                  <th>Message</th>
+                </tr>
+
+                {% for r in remarks %}
+
+                  <tr>
+                    <td>{{ r.file }}</td>
+                    <td>{{ r.line }}</td>
+                    <td>{{ r.number }}</td>
+                    <td>{{ r.message }}</td>
+                  </tr>
+
+                {% endfor %}
+
+              </table>
+
+            </div>
+
+          </div>
+
+        {% else %}
+
+          <p>no remarks!</p>
+
+        {% endif %}
+
+      </div>
+
+    </div>
 
   </body>
 
