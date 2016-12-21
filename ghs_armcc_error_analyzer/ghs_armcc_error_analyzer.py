@@ -5,7 +5,7 @@ import re
 import sys
 import os
 
-from optparse import OptionParser
+from optparse import OptionParser, OptionGroup
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -20,6 +20,28 @@ def main():
 
     # parse options
     parser = OptionParser()
+
+    parser.add_option('-t', '--text', action = 'store_true', dest = 'output_text',
+                      help = "output plain text")
+
+    # control outputs
+    g_control_outputs = OptionGroup(parser, "Control Outputs", "The following options are only valid in plain text mode at this point")
+    g_control_outputs.add_option('-e', '--error', action = 'store_true', dest = 'print_error_only',
+                      help = "display only errors")
+    g_control_outputs.add_option('-E', '--no-error', action = 'store_false', dest = 'print_error',
+                      help = "don't display errors")
+
+    g_control_outputs.add_option('-w', '--warning', action = 'store_true', dest = 'print_warning_only',
+                      help = "display warnings only")
+    g_control_outputs.add_option('-W', '--no-warning', action = 'store_false', dest = 'print_warning',
+                      help = "don't display warnings")
+
+    g_control_outputs.add_option('-r', '--remark', action = 'store_true', dest = 'print_remark_only',
+                      help = "display remarks only (default)")
+    g_control_outputs.add_option('-R', '--no-remark', action = 'store_false', dest = 'print_remark',
+                      help = "don't display remarks")
+    parser.add_option_group(g_control_outputs)
+
     (options, args) = parser.parse_args()
 
     # no input
@@ -41,14 +63,33 @@ def main():
 
             # append only unique messages
             if m and not (m.groupdict() in result[m.group('type')]):
-                result[m.group('type')].append(m.groupdict())
+                d = m.groupdict()
+                d.update({'plain': line})
+                result[m.group('type')].append(d)
 
             line = input_file.readline().decode('cp932')
 
-    # output html by means of jinja2
-    html = tpl.render({'errors': result['error'], 'warnings': result['warning'], 'remarks': result['remark']})
-    sys.stdout.buffer.write(html.encode('utf-8'))
+    # print
+    if options.output_text:
 
+        p = []
+
+        if (options.print_error and not (options.print_warning_only or options.print_remark_only)) or options.print_error_only:
+            p = result['error']
+
+        if (options.print_warning and not (options.print_error_only or options.print_remark_only)) or options.print_warning_only:
+            p += result['warning']
+
+        if (options.print_remark and not (options.print_error_only or options.print_warning_only)) or options.print_remark_only:
+            p += result['remark']
+
+        for l in p:
+            print(l['plain'])
+
+    else:
+        # output html by means of jinja2
+        html = tpl.render({'errors': result['error'], 'warnings': result['warning'], 'remarks': result['remark']})
+        sys.stdout.buffer.write(html.encode('utf-8'))
 
 if __name__ == '__main__':
     main()

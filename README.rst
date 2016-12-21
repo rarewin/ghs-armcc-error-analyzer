@@ -7,6 +7,12 @@ Abstract
 This tool is for analyzing error messages of Green Hills ARM C Compiler.
 
 
+Usage
+-----
+
+This tools is used in command line.
+
+
 Dependencies
 ------------
 
