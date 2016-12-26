@@ -55,7 +55,7 @@ def main():
     # analyze
     with open(input_file_name, 'rb') as input_file:
 
-        line = input_file.readline().decode('cp932')
+        line = ' '
 
         while line:
 
@@ -67,7 +67,10 @@ def main():
                 d.update({'plain': line})
                 result[m.group('type')].append(d)
 
-            line = input_file.readline().decode('cp932')
+            try:
+                line = input_file.readline().decode('cp932')
+            except:
+                line = ' '
 
     # print
     if options.output_text:
