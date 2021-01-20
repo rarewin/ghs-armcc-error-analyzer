@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "ghs-armcc-error-analyzer"
+version = "0.1.0"
+description = "analyze error messages of Green Hills ARM C Compiler"
+authors = ["Katsuki Kobayashi <rare@tirasweel.org>"]
+license = "BSD-2-Clause License"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Jinja2 = "^2.11.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
