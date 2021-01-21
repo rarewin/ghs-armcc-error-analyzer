@@ -5,122 +5,103 @@ import re
 import sys
 import os
 
-from optparse import OptionParser, OptionGroup
-
+import click
 from jinja2 import Environment, FileSystemLoader
 
 err_reg = re.compile(
-    '^\s*\"(?P<file>.*)\",\s*line\s*(?P<line>\d+).*:\s*[fatal]*\s*(?P<type>warning|error|remark)\s*#(?P<number>\d+)[-D]*\s*:*\s*(?P<message>.*)$'
+    r'^\s*\"(?P<file>.*)\",\s*line\s*(?P<line>\d+).*:\s*[fatal]*\s*(?P<type>warning|error|remark)\s*#(?P<number>\d+)[-D]*\s*:*\s*(?P<message>.*)$'
 )
 
 
-def main():
+@click.command()
+@click.option('-t',
+              '--text',
+              'output_text',
+              is_flag=True,
+              default=False,
+              help='output plain text')
+@click.option('-e',
+              '--error',
+              'print_error_only',
+              is_flag=True,
+              help="display errors only (only valid in plain text)")
+@click.option('-E',
+              '--no-error',
+              'dont_print_error',
+              is_flag=True,
+              help="don't display errors (only valid in plain text)")
+@click.option('-w',
+              '--warning',
+              'print_warning_only',
+              is_flag=True,
+              help="display warnings only (only valid in plain text)")
+@click.option('-W',
+              '--no-warning',
+              'dont_print_warning',
+              is_flag=True,
+              help="don't display warnings (only valid in plain text)")
+@click.option('-r',
+              '--remark',
+              'print_remark_only',
+              is_flag=True,
+              help="display remarks only (only valid in plain text)")
+@click.option('-R',
+              '--no-remark',
+              'dont_print_remark',
+              is_flag=True,
+              help="don't display remarks (only valid in plain text)")
+@click.argument('input_file', type=click.File('rt'))
+def main(output_text, print_error_only, dont_print_error, print_warning_only,
+         dont_print_warning, print_remark_only, dont_print_remark, input_file):
+
+    pass
 
     dirname = os.path.normpath(os.path.dirname(__file__))
     env = Environment(loader=FileSystemLoader(
         os.path.join(dirname, 'templates/'), encoding='utf8'))
     tpl = env.get_template('error.tpl.html')
 
-    # parse options
-    parser = OptionParser()
-
-    parser.add_option('-t',
-                      '--text',
-                      action='store_true',
-                      dest='output_text',
-                      help="output plain text")
-
-    # control outputs
-    g_control_outputs = OptionGroup(
-        parser, "Control Outputs",
-        "The following options are only valid in plain text mode at this point"
-    )
-    g_control_outputs.add_option('-e',
-                                 '--error',
-                                 action='store_true',
-                                 dest='print_error_only',
-                                 help="display only errors")
-    g_control_outputs.add_option('-E',
-                                 '--no-error',
-                                 action='store_false',
-                                 dest='print_error',
-                                 help="don't display errors")
-
-    g_control_outputs.add_option('-w',
-                                 '--warning',
-                                 action='store_true',
-                                 dest='print_warning_only',
-                                 help="display warnings only")
-    g_control_outputs.add_option('-W',
-                                 '--no-warning',
-                                 action='store_false',
-                                 dest='print_warning',
-                                 help="don't display warnings")
-
-    g_control_outputs.add_option('-r',
-                                 '--remark',
-                                 action='store_true',
-                                 dest='print_remark_only',
-                                 help="display remarks only (default)")
-    g_control_outputs.add_option('-R',
-                                 '--no-remark',
-                                 action='store_false',
-                                 dest='print_remark',
-                                 help="don't display remarks")
-    parser.add_option_group(g_control_outputs)
-
-    (options, args) = parser.parse_args()
-
-    # no input
-    if len(args) < 1:
-        sys.exit(0)
-
-    input_file_name = args[0]
-
     result = {'error': [], 'warning': [], 'remark': []}
 
-    # analyze
-    with open(input_file_name, 'rb') as input_file:
+    line = ' '
 
-        line = ' '
+    while line:
 
-        while line:
+        m = err_reg.match(line.strip())
 
-            m = err_reg.match(line.strip())
+        # append only unique messages
+        if m and not (m.groupdict() in result[m.group('type')]):
+            d = m.groupdict()
+            d.update({'plain': line})
+            result[m.group('type')].append(d)
 
-            # append only unique messages
-            if m and not (m.groupdict() in result[m.group('type')]):
-                d = m.groupdict()
-                d.update({'plain': line})
-                result[m.group('type')].append(d)
-
-            try:
-                line = input_file.readline().decode('cp932')
-            except:
-                line = ' '
+        try:
+            line = input_file.readline()
+        except UnicodeDecodeError:
+            line = ' '
 
     # print
-    if options.output_text:
+    if output_text:
 
         p = []
 
-        if (options.print_error and
-                not (options.print_warning_only or options.print_remark_only)
-            ) or options.print_error_only:
+        if (not dont_print_error
+                and not (print_warning_only
+                         or print_remark_only)) or print_error_only:
             p = result['error']
 
-        if (options.print_warning
-                and not (options.print_error_only or options.print_remark_only)
-            ) or options.print_warning_only:
+        if (not dont_print_warning
+                and not (print_error_only
+                         or print_remark_only)) or print_warning_only:
             p += result['warning']
 
-        if (options.print_remark and
-                not (options.print_error_only or options.print_warning_only)
-            ) or options.print_remark_only:
+        if (not dont_print_remark
+                and not (print_error_only
+                         or print_warning_only)) or print_remark_only:
             p += result['remark']
 
-        for l in p:
-            print(l['plain'])
+        for entry in p:
+            print(entry['plain'])
 
     else:
         # output html by means of jinja2
